@@ -1,162 +1,184 @@
-# 🧮 Calculadora Online
+# Fabric Copilot & Data Agent Consumption Estimation Accelerator
 
-Uma calculadora web simples e elegante que funciona diretamente no seu navegador!
+> IMPORTANT DISCLAIMER: Although the code in this repository was created by a Microsoft employee, this is **NOT** an official Microsoft product, service, toolkit, nor a supported deliverable. It is an **unofficial accelerator / learning sample** built from field experience with customers and the publicly available Microsoft documentation. Use it at your own risk, validate results independently, and always rely on official tooling for final commercial or capacity sizing decisions like Fabric Capacity Estimator.
 
----
-
-## 📝 Contador de Palavras & Tokens
-
-Além da calculadora, este repositório agora inclui uma ferramenta estática (100% client-side) para analisar **lista de frases** e obter:
-
-- Contagem de palavras
-- Estimativa de tokens (heurística chars/4)
-- Cálculo real de tokens se o script `tiktoken` JS carregar
-- Médias por frase
-- Download CSV e copiar tabela para clipboard
-
-### Como usar (GitHub Pages)
-
-1. Publique o repositório com GitHub Pages (ver instruções abaixo)
-2. Acesse a URL do seu Pages (`https://SEU_USUARIO.github.io/NOME_DO_REPOSITORIO`)
-3. A página `index.html` já abre a ferramenta
-4. Cole suas frases (uma por linha ou separadas por `;` ou `|`)
-5. Ajuste opções (remover vazias, minúsculas, separador, modo de tokens, encoding)
-6. Clique em **Calcular métricas**
-7. Baixe o CSV ou copie a tabela
-
-### Técnicas usadas
-
-- **HTML + CSS puro** com design responsivo
-- **JavaScript vanilla** (nenhuma dependência obrigatória)
-- **Progressive enhancement**: tenta carregar `js-tiktoken` via CDN; se falhar usa heurística
-- **Segurança / Privacidade**: nenhum dado sai do navegador
-
-### Estrutura visual
-
-| Elemento | Função |
-|----------|--------|
-| Textarea | Inserção de frases |
-| Configurações | Ajuste de separador e normalização |
-| KPIs | Totais e médias |
-| Tabela | Métricas linha a linha |
-| Chips | Resumo do processamento |
+Official reference documentation that informed this accelerator:
+- Copilot consumption fundamentals: https://learn.microsoft.com/en-us/fabric/fundamentals/copilot-fabric-consumption
+- Data Agent consumption fundamentals: https://learn.microsoft.com/en-us/fabric/fundamentals/data-agent-consumption
 
 ---
 
-## 🌐 [**ACESSE A CALCULADORA AQUI**](https://SEU_USUARIO.github.io/calculadora-online)
+## 1. Purpose
+This repository helps you quickly approximate token usage and high‑level Capacity Unit (CU) consumption scenarios for exploratory or early planning discussions around Microsoft Fabric Copilot / Data Agent usage patterns. It provides both:
 
-## ✨ Funcionalidades
+1. A static, infrastructure‑free web interface (for non‑developers) hosted easily via GitHub Pages.
+2. Python CLI utilities (for higher fidelity token counts) using the same tokenization approach applied in internal experimentation (via `tiktoken`).
 
-- ✅ **Interface moderna e responsiva**
-- ✅ **Soma instantânea** de dois números
-- ✅ **Suporte a decimais** (ex: 10.5 + 7.3)
-- ✅ **Números negativos** (ex: -5 + 10)
-- ✅ **Histórico de cálculos** (salvo localmente)
-- ✅ **Atalhos de teclado** (Enter para navegar/calcular)
-- ✅ **Animações suaves** e feedback visual
-- ✅ **Responsivo** - funciona em celular e desktop
-- ✅ **Easter egg** 🎮 (tente o Konami Code!)
-
-## 🎯 Como usar
-
-1. **Acesse a calculadora** no link acima
-2. **Digite o primeiro número** no campo superior
-3. **Digite o segundo número** no campo inferior  
-4. **Clique em "Calcular Soma"** ou pressione Enter
-5. **Veja o resultado** instantaneamente!
-
-## 🚀 Hospedagem no GitHub Pages
-
-### Configuração automática:
-
-1. **Faça push do código para o GitHub**
-2. **Vá nas Configurações do repositório**
-3. **Role até "Pages" na barra lateral**
-4. **Selecione "Deploy from a branch"**
-5. **Escolha "main" como branch**
-6. **Clique em "Save"**
-
-### Sua calculadora estará disponível em:
-```
-https://SEU_USUARIO.github.io/NOME_DO_REPOSITORIO
-```
-
-## 📁 Estrutura do projeto
-
-```
-├── index.html          # Interface web (calculadora + contador de tokens)
-├── calculadora.py      # Versão Python da calculadora simples
-├── README.md           # Esta documentação
-└── .gitignore          # Arquivos ignorados pelo Git
-```
-
-## 🎨 Características do design
-
-- **Gradiente moderno** azul/roxo
-- **Cards com sombra** para profundidade
-- **Animações suaves** nos botões e resultados
-- **Feedback visual** para sucesso/erro
-- **Tipografia limpa** com ícones emoji
-- **Layout responsivo** para todos os dispositivos
-
-## ⌨️ Atalhos de teclado
-
-- **Tab** - Navegar entre campos
-- **Enter** - Ir para próximo campo ou calcular
-- **↑↑↓↓←→←→BA** - Easter egg especial! 🎮
-
-## 💾 Persistência de dados
-
-- **Histórico salvo** no navegador (LocalStorage)
-- **Até 10 cálculos** mantidos automaticamente
-- **Botão de limpar** histórico disponível
-- **Dados persistem** entre sessões
-
-## �️ Tecnologias
-
-- **HTML5** - Estrutura semântica
-- **CSS3** - Design moderno com gradientes e animações
-- **JavaScript** - Lógica da calculadora e persistência
-- **LocalStorage** - Salvamento do histórico
-- **GitHub Pages** - Hospedagem gratuita
-
-## 🧪 Testando localmente
-
-Você também pode testar a versão Python:
-
-```bash
-# Teste direto com números
-python calculadora.py 10 5
-
-# Teste com texto (simulando issue)
-python calculadora.py "Número 1: 10.5\nNúmero 2: 5.2"
-```
-
-## � Próximas melhorias
-
-- [ ] Mais operações (-, *, /)
-- [ ] Modo escuro/claro
-- [ ] Calculadora científica
-- [ ] Compartilhamento de resultados
-- [ ] Temas personalizáveis
-- [ ] PWA (Progressive Web App)
-
-## 🤝 Contribuindo
-
-1. Fork este repositório
-2. Crie uma branch: `git checkout -b feature/nova-funcao`
-3. Commit suas mudanças: `git commit -m 'Adiciona nova funcionalidade'`
-4. Push para a branch: `git push origin feature/nova-funcao`
-5. Abra um Pull Request
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
-
-## 🌟 Mostre seu apoio
-
-Se este projeto te ajudou, dê uma ⭐ no repositório!
+It is **not a replacement** for official guidance nor for the **Fabric Capacity Estimator application**, which remains the authoritative source for final sizing decisions. Treat every output here as a directional aid, not a commitment.
 
 ---
 
-**Feito com ❤️ e muito ☕** | [Ver no GitHub](https://github.com/SEU_USUARIO/calculadora-online)
+## 2. Accuracy Ladder
+In order of increasing reliability:
+1. Heuristic fallback (character length ÷ 4) – only used when all tokenizers fail in the browser.
+2. Browser static site with WebAssembly `tiktoken` (and layered fallbacks). Good for quick ideation.
+3. Python CLI scripts (`tokens_calculator.py`, `manual_cu_estimator.py`) – higher accuracy because they run locally with the native `tiktoken` library.
+4. Official Fabric Capacity Estimator (outside this repo) – final and authoritative for planning & procurement.
+
+Whenever possible, move “up” the ladder before making decisions.
+
+---
+
+## 3. Key Components
+
+| File | Role |
+|------|------|
+| `index.html` | Static multi‑line token & word analyzer (client‑side; bilingual earlier iterations) with graceful tokenizer fallbacks. |
+| `capacity.html` | Lightweight page to experiment with capacity KPIs given average token assumptions. |
+| `tokens_calculator.py` | Consolidated CLI for multi‑line token analysis + optional capacity estimation (now contains embedded analysis logic). |
+| `manual_cu_estimator.py` | CLI focused on manual CU scenario calculations (users, questions per user, etc.). |
+| `calculadora.py` | Legacy simple arithmetic sample (retained only as an auxiliary example). |
+| `ai_skill.ipynb` / `calc_fabric.ipynb` | Exploratory notebooks that informed formulas and approach. |
+| `requirements.txt` | Python dependencies (not required for pure static site usage). |
+
+*(Some earlier supporting modules were merged for simplicity.)*
+
+---
+
+## 4. Estimation Model (Simplified)
+
+Current approximation (subject to refinement):
+
+```
+output_tokens = input_tokens * 4
+cu_seconds    = (input_tokens * 100 + output_tokens * 400) / 1000
+cu_hours      = cu_seconds / 3600
+capacity_need = (requests_per_day * cu_hours) / 24
+```
+
+Where:
+- `input_tokens` – Average prompt / question tokens.
+- `output_tokens` – Assumes a 4× expansion factor (illustrative ratio; adjust as your scenario dictates).
+- `requests_per_day` – Derived from `users_per_day * questions_per_user_per_day`.
+- `capacity_need` – Approximate average CU requirement per day (directional only).
+
+> CAUTION: Ratios and multipliers here are **not** official published guarantees; they are illustrative for early ideation. Always validate your real workloads and finalize with the Fabric Capacity Estimator.
+
+---
+
+## 5. Tokenization Strategy
+
+CLI scripts use the Python `tiktoken` library (default model key: `gpt-4o-mini`, falling back to a base encoding). The static site attempts this order:
+1. WebAssembly `@dqbd/tiktoken` (primary)
+2. `gpt-tokenizer` fallback
+3. Heuristic `length / 4`
+
+The UI can surface when a fallback occurs (design intent: transparent degradations). No data leaves the browser; all processing is local.
+
+---
+
+## 6. Getting Started (Python CLI)
+
+### 6.1. Environment Setup (Windows example)
+```cmd
+python -m venv .venv
+".venv\Scripts\activate"
+pip install -r requirements.txt
+```
+
+### 6.2. Interactive Token & Capacity Exploration
+```cmd
+python tokens_calculator.py
+```
+Paste one question per line, press Enter on an empty line to finish, then opt-in to capacity estimation.
+
+### 6.3. JSON Mode (Automated / Scripting)
+```cmd
+python tokens_calculator.py --json --text "What is sales by region?\nList top products" --capacity --users-per-day 1500 --questions-per-user 5
+```
+
+### 6.4. Manual CU Estimation Only
+```cmd
+python manual_cu_estimator.py
+```
+
+### 6.5. Piping Text (PowerShell)
+```powershell
+@" 
+Compare regional sales performance
+Highlight top 5 growth products
+"@ | python tokens_calculator.py --json
+```
+
+---
+
+## 7. Static Web Pages (GitHub Pages)
+
+The web assets (`index.html`, `capacity.html`) are pure static files:
+1. Enable GitHub Pages → Build from `main` branch (root).
+2. Access `https://YOUR_USER.github.io/YOUR_REPO/`.
+3. Paste lines, compute metrics, optionally export results.
+
+> Because no server component runs, advanced or custom encodings beyond those bundled may degrade gracefully to fallback heuristics. For the **most reliable token counts, prefer the Python CLI.**
+
+---
+
+## 8. Recommended Workflow
+
+| Stage | Activity | Tool | Purpose |
+|-------|----------|------|---------|
+| Ideation | Rapid question drafting & rough sizing | Static site | Fast, no setup |
+| Refinement | More accurate token counts | `tokens_calculator.py` | Real `tiktoken` usage |
+| Scenario modeling | CU sensitivity (users / questions) | `manual_cu_estimator.py` | Focus on demand variables |
+| Final validation | Official capacity alignment | Fabric Capacity Estimator | Authoritative |
+
+---
+
+## 9. Limitations
+* Not an official licensing or billing tool.
+* Ratios (e.g., output = 4 × input) are illustrative defaults.
+* No guarantee of parity with evolving service internals.
+* Does not model concurrency bursts, throttling, network overhead, or caching effects.
+* Heuristic fallback may under/overestimate edge linguistic cases (very short or highly token-dense inputs).
+
+---
+
+## 10. Extensibility Ideas
+* Add configurable output token expansion ratios per scenario.
+* Integrate empirical sampling (log real tokens from prototype instrumentation).
+* Expose CSV / JSON batch processing for large prompt inventories.
+* Add confidence bands (min / P50 / P95) over token volatility.
+
+---
+
+## 11. Contributing
+Contributions are welcome strictly as community goodwill. By submitting a PR you acknowledge this is an **unofficial sample** and may change or be archived without notice.
+
+Proposed flow:
+1. Fork
+2. Branch (`feat/your-improvement`)
+3. Commit with clear message
+4. Open Pull Request (describe rationale & validation)
+
+---
+
+## 12. Support & Warranty
+No SLA, no formal support channel, no warranty—provided **AS IS**. For production design decisions consult official Microsoft documentation and tooling.
+
+---
+
+## 13. License
+If a LICENSE file is not present, treat this as a sample provided without explicit license grant beyond typical fair use for learning. Add a license file (e.g., MIT) before distributing or incorporating into broader solutions.
+
+---
+
+## 14. Final Reminder
+Always corroborate any directional estimates here with the **Fabric Capacity Estimator** and official documentation:
+- https://learn.microsoft.com/en-us/fabric/fundamentals/copilot-fabric-consumption
+- https://learn.microsoft.com/en-us/fabric/fundamentals/data-agent-consumption
+
+> This accelerator shortens the iteration loop; it does not replace authoritative sizing or commercial guidance.
+
+---
+
+_Built as an accelerator informed by real-world patterns and public docs—use responsibly and validate continuously._
