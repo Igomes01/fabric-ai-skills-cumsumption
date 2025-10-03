@@ -1,419 +1,312 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🧮 Calculadora Online</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            padding: 40px;
-            max-width: 500px;
-            width: 100%;
-            text-align: center;
-        }
-
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 2.5em;
-        }
-
-        .subtitle {
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 1.1em;
-        }
-
-        .input-group {
-            margin-bottom: 25px;
-            text-align: left;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #555;
-            font-weight: 600;
-            font-size: 1.1em;
-        }
-
-        input[type="number"] {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 1.2em;
-            transition: all 0.3s ease;
-            background: #f9f9f9;
-        }
-
-        input[type="number"]:focus {
-            outline: none;
-            border-color: #667eea;
-            background: white;
-            box-shadow: 0 0 10px rgba(102, 126, 234, 0.2);
-        }
-
-        .calculate-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 18px 40px;
-            border-radius: 50px;
-            font-size: 1.3em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 20px 0;
-            min-width: 200px;
-        }
-
-        .calculate-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        .calculate-btn:active {
-            transform: translateY(0);
-        }
-
-        .result {
-            margin-top: 30px;
-            padding: 25px;
-            border-radius: 15px;
-            font-size: 1.4em;
-            font-weight: 600;
-            min-height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .result.success {
-            background: linear-gradient(135deg, #4CAF50, #45a049);
-            color: white;
-            animation: slideIn 0.5s ease;
-        }
-
-        .result.error {
-            background: linear-gradient(135deg, #f44336, #d32f2f);
-            color: white;
-            animation: shake 0.5s ease;
-        }
-
-        .result.waiting {
-            background: #f0f0f0;
-            color: #999;
-            border: 2px dashed #ddd;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes shake {
-            0%, 20%, 40%, 60%, 80% {
-                transform: translateX(-5px);
-            }
-            10%, 30%, 50%, 70%, 90% {
-                transform: translateX(5px);
-            }
-            100% {
-                transform: translateX(0);
-            }
-        }
-
-        .history {
-            margin-top: 30px;
-            text-align: left;
-        }
-
-        .history h3 {
-            color: #333;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        .history-item {
-            background: #f9f9f9;
-            border-left: 4px solid #667eea;
-            padding: 10px 15px;
-            margin-bottom: 10px;
-            border-radius: 0 8px 8px 0;
-            font-family: 'Courier New', monospace;
-        }
-
-        .clear-btn {
-            background: #ff6b6b;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            font-size: 0.9em;
-            cursor: pointer;
-            float: right;
-            margin-top: -5px;
-        }
-
-        .clear-btn:hover {
-            background: #ff5252;
-        }
-
-        .footer {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-            color: #999;
-            font-size: 0.9em;
-        }
-
-        .github-link {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .github-link:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 20px;
-                margin: 10px;
-            }
-            
-            h1 {
-                font-size: 2em;
-            }
-            
-            .calculate-btn {
-                width: 100%;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Contador Simples</title>
+  <meta name="description" content="Estimativa de palavras e tokens." />
+  <style>
+    /* Fluent / Fabric inspired palette (dark mode) */
+    :root {
+      --brand:#0F6CBD; /* primary */
+      --brand-dark:#0B4F86;
+      --brand-light:#1A74C2;
+      --accent:var(--brand);
+      --accent-hover:#0D5FA5;
+      --bg:#0b0b0c;
+      --bg-alt:#111315;
+      --panel:#1b1d20;
+      --panel-alt:#22252a;
+      --border:#2d3237;
+      --border-strong:#3a4148;
+      --text:#f5f7fa;
+      --text-soft:#c2c8d0;
+      --focus:#89c3ff;
+      --danger:#D13438;
+      --warn:#FFB900;
+      --font: system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: var(--font); background: radial-gradient(circle at 25% 15%, #14181d 0%, var(--bg) 65%); color:var(--text); display:flex; flex-direction:column; min-height:100vh; }
+    header { padding:1.5rem 1.25rem 0.75rem; text-align:center; position:relative; }
+    h1 { margin:0 0 .35rem; font-size:1.65rem; font-weight:600; }
+    p { margin:.25rem 0 1.1rem; font-size:.85rem; color:var(--text-soft); }
+    main { width:100%; max-width:900px; margin:0 auto; padding:0 1rem 2.5rem; flex:1; }
+    .panel { background:linear-gradient(145deg,var(--panel),var(--panel-alt)); border:1px solid var(--border); border-radius:16px; padding:1rem 1rem 1.25rem; box-shadow:0 4px 28px -10px #000; backdrop-filter:blur(4px); }
+    textarea { width:100%; resize:vertical; min-height:220px; font:500 14px/1.5 ui-monospace,Menlo,Consolas,monospace; background:#101418; border:1px solid var(--border); border-radius:10px; color:var(--text); padding:.75rem .85rem; transition:.25s; }
+    textarea:focus { outline:2px solid var(--accent); outline-offset:2px; }
+    .actions { display:flex; gap:.75rem; flex-wrap:wrap; margin-top:.85rem; }
+    button { cursor:pointer; border:1px solid var(--border-strong); border-radius:10px; font:600 14px/1 var(--font); padding:.78rem 1.2rem; background:var(--accent); color:#fff; box-shadow:0 4px 14px -6px rgba(15,108,189,.55); transition:.25s; display:inline-flex; align-items:center; gap:.45rem; }
+    button:hover { background:var(--accent-hover); transform:translateY(-2px); box-shadow:0 6px 18px -6px rgba(15,108,189,.65); }
+    button:active { transform:translateY(0); }
+    button.secondary { background:#272c31; color:var(--text-soft); }
+    button.secondary:hover { background:#30363c; color:var(--text); }
+    .result { margin-top:1.4rem; background:linear-gradient(160deg,var(--panel-alt),#1c2227); border:1px solid var(--border-strong); border-radius:16px; padding:1rem 1rem 1.25rem; }
+    .totais { display:flex; gap:1rem; flex-wrap:wrap; margin:0 0 1rem; }
+    .kpi { flex:1 1 150px; background:#12161a; border:1px solid var(--border); border-radius:12px; padding:.65rem .75rem .7rem; position:relative; overflow:hidden; }
+    .kpi:before { content:""; position:absolute; inset:0; background:linear-gradient(140deg,rgba(15,108,189,.15),rgba(15,108,189,0) 55%); opacity:.6; pointer-events:none; }
+    .kpi h3 { margin:0 0 .4rem; font:600 .62rem/1 var(--font); letter-spacing:.13em; text-transform:uppercase; color:var(--text-soft); }
+    .kpi p { margin:0; font:600 1.14rem/1.15 var(--font); letter-spacing:.4px; color:var(--text); }
+    table { width:100%; border-collapse:collapse; font-size:.7rem; }
+    th, td { padding:.48rem .55rem; text-align:left; border-bottom:1px solid var(--border); }
+    thead { background:#192026; }
+    tbody tr:hover { background:#232b32; }
+    footer { text-align:center; padding:1.2rem 0 1.6rem; font-size:.65rem; opacity:.55; }
+  footer a { color:var(--accent); text-decoration:none; font-weight:600; }
+  footer a:hover { text-decoration:underline; }
+    .hidden { display:none !important; }
+    .fade { animation:fade .4s ease; }
+    @keyframes fade { from{opacity:0; transform:translateY(6px);} to {opacity:1; transform:translateY(0);} }
+    .lang-switch { position:absolute; top:14px; right:14px; display:flex; gap:.5rem; }
+    .lang-btn { background:#20262b; border:1px solid var(--border); color:var(--text-soft); font:600 11px/1 var(--font); padding:.45rem .7rem; border-radius:8px; cursor:pointer; letter-spacing:.05em; text-transform:uppercase; display:inline-flex; align-items:center; gap:.35rem; }
+    .lang-btn svg { width:14px; height:14px; fill:currentColor; }
+    .lang-btn.active { background:var(--accent); border-color:var(--accent); color:#fff; box-shadow:0 0 0 3px rgba(15,108,189,.35); }
+    .lang-btn:not(.active):hover { background:#2a3137; color:var(--text); }
+    .section-title { margin:.2rem 0 .55rem; font:600 0.9rem/1.2 var(--font); letter-spacing:.5px; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🧮 Calculadora</h1>
-        <p class="subtitle">Soma simples e rápida online</p>
-        
-        <form id="calculatorForm">
-            <div class="input-group">
-                <label for="numero1">📊 Primeiro Número:</label>
-                <input type="number" id="numero1" step="any" placeholder="Ex: 10.5" required>
-            </div>
-            
-            <div class="input-group">
-                <label for="numero2">📊 Segundo Número:</label>
-                <input type="number" id="numero2" step="any" placeholder="Ex: 7.3" required>
-            </div>
-            
-            <button type="submit" class="calculate-btn">
-                ➕ Calcular Soma
-            </button>
-        </form>
-        
-        <div id="result" class="result waiting">
-            💡 Digite dois números e clique em "Calcular Soma"
-        </div>
-        
-        <div class="history" id="historySection" style="display: none;">
-            <h3>📝 Histórico de Cálculos 
-                <button class="clear-btn" onclick="clearHistory()">🗑️ Limpar</button>
-            </h3>
-            <div id="historyList"></div>
-        </div>
-        
-        <div class="footer">
-            <p>Feito com ❤️ e JavaScript | 
-            <a href="https://github.com" class="github-link" target="_blank">
-                📁 Ver no GitHub
-            </a></p>
-        </div>
+  <header>
+    <div class="lang-switch" id="langSwitch">
+      <button class="lang-btn active" data-lang-select="pt-BR" aria-label="Português (Brasil)">PT-BR</button>
+      <button class="lang-btn" data-lang-select="en-US" aria-label="English (US)">EN-US</button>
     </div>
+    <h1 data-i18n="title_index">Contador & Estimador de Capacidade</h1>
+    <p data-i18n="subtitle_index">Insira perguntas (uma por linha), calcule palavras, tokens (≈) e estime capacidade simplificada.</p>
+  </header>
+  <main>
+    <section class="panel">
+      <div style="display:grid; gap:.75rem; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); margin-bottom:.85rem;">
+        <label style="display:flex; flex-direction:column; gap:.4rem; font-size:.65rem; text-transform:uppercase; letter-spacing:.06em; opacity:.75;">
+          <span data-i18n="label_users_day">Número de Usuários por dia</span>
+          <input type="number" id="usuariosDiaTop" value="1500" min="1" step="10" style="padding:.55rem .6rem; border:1px solid #2a3c55; border-radius:8px; background:#142033; color:#fff; font:600 14px/1 var(--font);" />
+        </label>
+        <label style="display:flex; flex-direction:column; gap:.4rem; font-size:.65rem; text-transform:uppercase; letter-spacing:.06em; opacity:.75;">
+          <span data-i18n="label_questions_user">Perguntas por Usuário</span>
+          <input type="number" id="perguntasUsuarioTop" value="5" min="1" step="1" style="padding:.55rem .6rem; border:1px solid #2a3c55; border-radius:8px; background:#142033; color:#fff; font:600 14px/1 var(--font);" />
+        </label>
+      </div>
+  <h2 class="section-title" data-i18n="heading_examples">Insira os exemplos de Frases que seus usuários fariam:</h2>
+  <textarea id="texto" data-i18n-placeholder="placeholder_phrases" placeholder="Cole aqui as frases / perguntas (uma por linha)..."></textarea>
+      <div class="actions" style="margin-top:.9rem;">
+  <button id="btnCalcular" data-i18n="btn_calculate">Calcular</button>
+  <button class="secondary" id="btnLimpar" data-i18n="btn_clear">Limpar</button>
+  <button class="secondary" id="btnExemplo" data-i18n="btn_example">Exemplo</button>
+  <button class="secondary" id="btnIrCapacity" data-i18n="btn_capacity_adv" title="Ir para calculadora avançada">Capacidade Avançada →</button>
+      </div>
+      <div id="resultado" class="result hidden fade">
+          <!-- Bloco de métricas de tokens e palavras -->
+          <div id="tokensSec" class="fade" style="margin-bottom:1.1rem;">
+            <div id="tokensKpis" class="totais"></div>
+            <div style="overflow:auto; border:1px solid #2d425f; border-radius:10px;">
+              <table id="tokensTabela" style="width:100%; border-collapse:collapse; font-size:.68rem;">
+                <thead style="background:#162235;">
+                  <tr>
+                    <th style="white-space:nowrap;">#</th>
+                    <th>Frase</th>
+                    <th style="white-space:nowrap;">Palavras</th>
+                    <th style="white-space:nowrap;">Tokens (≈)</th>
+                  </tr>
+                </thead>
+                <tbody id="tokensTbody"></tbody>
+              </table>
+            </div>
+          </div>
+          <!-- Bloco de capacidade -->
+          <div id="capacidadeResultados" style="display:block; font-size:.72rem; line-height:1.45;"></div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <span data-i18n="footer_index">Unofficial Microsoft Calculator • For best CU accuracy, use the Fabric Capacity Estimator • No data is sent or saved</span>
+    <span style="opacity:.35;"> • </span>
+    <a href="https://github.com/Igomes01/fabric-ai-skills-cumsumption" target="_blank" rel="noopener noreferrer" data-i18n="doc_link_label">Documentation (GitHub)</a>
+  </footer>
+<script>
+(function(){
+  const $ = s => document.querySelector(s);
+  const textoEl = $('#texto');
+  const btnCalcular = $('#btnCalcular');
+  const btnLimpar = $('#btnLimpar');
+  const btnExemplo = $('#btnExemplo');
+  const btnIrCapacity = $('#btnIrCapacity');
+  const langSwitch = $('#langSwitch');
+  const resultado = $('#resultado');
+  const capacidadeResultados = $('#capacidadeResultados');
+  const usuariosDiaEl = $('#usuariosDiaTop');
+  const perguntasUsuarioEl = $('#perguntasUsuarioTop');
 
-    <script>
-        // Array para armazenar o histórico
-        let history = JSON.parse(localStorage.getItem('calculatorHistory') || '[]');
-        
-        // Elementos do DOM
-        const form = document.getElementById('calculatorForm');
-        const numero1Input = document.getElementById('numero1');
-        const numero2Input = document.getElementById('numero2');
-        const resultDiv = document.getElementById('result');
-        const historySection = document.getElementById('historySection');
-        const historyList = document.getElementById('historyList');
-        
-        // Carrega o histórico ao iniciar
-        loadHistory();
-        
-        // Event listener para o formulário
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            calculateSum();
-        });
-        
-        // Permite calcular com Enter
-        numero1Input.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') numero2Input.focus();
-        });
-        
-        numero2Input.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') calculateSum();
-        });
-        
-        function calculateSum() {
-            const num1 = parseFloat(numero1Input.value);
-            const num2 = parseFloat(numero2Input.value);
-            
-            // Validação
-            if (isNaN(num1) || isNaN(num2)) {
-                showResult('❌ Por favor, digite números válidos!', 'error');
-                return;
-            }
-            
-            // Calcula a soma
-            const resultado = num1 + num2;
-            
-            // Formata o resultado
-            const calculation = `${num1} + ${num2} = ${resultado}`;
-            
-            // Mostra o resultado
-            showResult(`🎉 ${calculation}`, 'success');
-            
-            // Adiciona ao histórico
-            addToHistory(calculation);
-            
-            // Limpa os campos
-            setTimeout(() => {
-                numero1Input.value = '';
-                numero2Input.value = '';
-                numero1Input.focus();
-            }, 1000);
-        }
-        
-        function showResult(message, type) {
-            resultDiv.textContent = message;
-            resultDiv.className = `result ${type}`;
-        }
-        
-        function addToHistory(calculation) {
-            const timestamp = new Date().toLocaleString('pt-BR');
-            const historyItem = {
-                calculation: calculation,
-                timestamp: timestamp
-            };
-            
-            // Adiciona no início do array
-            history.unshift(historyItem);
-            
-            // Mantém apenas os últimos 10 cálculos
-            if (history.length > 10) {
-                history = history.slice(0, 10);
-            }
-            
-            // Salva no localStorage
-            localStorage.setItem('calculatorHistory', JSON.stringify(history));
-            
-            // Atualiza a visualização
-            loadHistory();
-        }
-        
-        function loadHistory() {
-            if (history.length === 0) {
-                historySection.style.display = 'none';
-                return;
-            }
-            
-            historySection.style.display = 'block';
-            historyList.innerHTML = '';
-            
-            history.forEach(item => {
-                const historyItem = document.createElement('div');
-                historyItem.className = 'history-item';
-                historyItem.innerHTML = `
-                    <strong>${item.calculation}</strong>
-                    <br>
-                    <small style="color: #666;">${item.timestamp}</small>
-                `;
-                historyList.appendChild(historyItem);
-            });
-        }
-        
-        function clearHistory() {
-            history = [];
-            localStorage.removeItem('calculatorHistory');
-            historySection.style.display = 'none';
-            showResult('🗑️ Histórico limpo!', 'success');
-            
-            setTimeout(() => {
-                showResult('💡 Digite dois números e clique em "Calcular Soma"', 'waiting');
-            }, 2000);
-        }
-        
-        // Foca no primeiro campo ao carregar
-        window.onload = function() {
-            numero1Input.focus();
-        };
-        
-        // Easter egg: Konami code
-        let konamiCode = [];
-        const konamiSequence = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]; // ↑↑↓↓←→←→BA
-        
-        document.addEventListener('keydown', function(e) {
-            konamiCode.push(e.keyCode);
-            if (konamiCode.length > konamiSequence.length) {
-                konamiCode.shift();
-            }
-            
-            if (konamiCode.join(',') === konamiSequence.join(',')) {
-                showResult('🎮 Konami Code! Você é um verdadeiro gamer! 🎮', 'success');
-                document.body.style.background = 'linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3)';
-                document.body.style.backgroundSize = '400% 400%';
-                document.body.style.animation = 'rainbow 2s ease infinite';
-                
-                setTimeout(() => {
-                    document.body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-                    document.body.style.animation = 'none';
-                }, 5000);
-            }
-        });
-    </script>
-    
-    <style>
-        @keyframes rainbow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-    </style>
+  // i18n dictionary
+  const I18N = {
+    'pt-BR': {
+      title_index: 'Estimativa de CU do Fabric para Copilot e Data Agent',
+      subtitle_index: 'Calculadora de Unidade Computacional para estimar o consumo de Copilot e Data Agent no Fabric.',
+      heading_examples: 'Insira os exemplos de perguntas que seus usuários fariam:',
+      placeholder_phrases: 'Cole aqui as perguntas (uma por linha)...',
+      btn_calculate: 'Calcular',
+      btn_clear: 'Limpar',
+      btn_example: 'Exemplo',
+      btn_capacity_adv: 'Estimativa por Número de Palavras →',
+      toast_no_lines: 'Nenhuma linha válida.',
+      toast_fill_users: 'Preencha usuários & perguntas.',
+      kpi_phrases: 'Frases',
+      kpi_total_words: 'Total Palavras',
+      kpi_total_tokens: 'Total Tokens (≈)',
+      kpi_avg_words: 'Média Palavras/Frase',
+      kpi_avg_tokens: 'Média Tokens/Frase',
+      kpi_tokens_per_word: 'Tokens/Palavra',
+  label_users_day: 'Número de Usuários por dia',
+  label_questions_user: 'Perguntas por Usuário',
+      label_cu_seconds: 'CU por Segundo',
+      label_cu_minute: 'CU por Minuto',
+      label_cu_hours: 'CU por Hora',
+      label_requests_day: 'Requisições por Dia',
+      label_capacity_need: 'Capacidade Necessária',
+      example_text: 'Quais relatórios financeiros foram atualizados essa semana?\nMostre um resumo das vendas por região.\nListe anomalias de custo em nuvem no último mês.'
+      ,footer_index: 'Calculadora não oficial • Para maior precisão de CU use o Fabric Capacity Estimator • Nenhum dado é enviado ou armazenado'
+      ,doc_link_label: 'Documentação (GitHub)'
+    },
+    'en-US': {
+      title_index: 'Fabric CU Estimation for Copilot and Data Agent',
+      subtitle_index: 'Compute Unit Calculator to estimate Copilot and Data Agent consumption in Fabric.',
+      heading_examples: 'Enter sample questions your users would ask:',
+      placeholder_phrases: 'Paste questions (one per line)...',
+      btn_calculate: 'Calculate',
+      btn_clear: 'Clear',
+      btn_example: 'Sample',
+      btn_capacity_adv: 'Word Count Estimate →',
+      toast_no_lines: 'No valid lines.',
+      toast_fill_users: 'Fill users & questions.',
+      kpi_phrases: 'Lines',
+      kpi_total_words: 'Total Words',
+      kpi_total_tokens: 'Total Tokens (≈)',
+      kpi_avg_words: 'Avg Words/Line',
+      kpi_avg_tokens: 'Avg Tokens/Line',
+      kpi_tokens_per_word: 'Tokens/Word',
+  label_users_day: 'Users per Day',
+  label_questions_user: 'Questions per User',
+      label_cu_seconds: 'CU Seconds',
+      label_cu_minute: 'CU Minute',
+      label_cu_hours: 'CU Hours',
+      label_requests_day: 'Requests / Day',
+      label_capacity_need: 'Capacity Need',
+      example_text: 'Which financial reports were updated this week?\nShow a sales summary by region.\nList cloud cost anomalies for last month.'
+      ,footer_index: 'Unofficial Microsoft Calculator • For best CU accuracy, use the Fabric Capacity Estimator • No data is sent or saved'
+      ,doc_link_label: 'Documentation (GitHub)'
+    }
+  };
+  let currentLang = localStorage.getItem('langPref') || 'pt-BR';
+
+  function t(key){ return (I18N[currentLang] && I18N[currentLang][key]) || key; }
+  function applyI18n(){
+    document.documentElement.setAttribute('lang', currentLang);
+    document.querySelectorAll('[data-i18n]').forEach(el=>{
+      const key = el.dataset.i18n;
+      const translated = t(key);
+      el.textContent = translated; // all these elements are pure text containers here
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{ el.setAttribute('placeholder', t(el.dataset.i18nPlaceholder)); });
+    langSwitch.querySelectorAll('.lang-btn').forEach(btn=>btn.classList.toggle('active', btn.dataset.langSelect===currentLang));
+    if(!resultado.classList.contains('hidden')) calcular(true);
+  }
+
+  function linhasValidas(txt){
+    return txt.split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+  }
+  function contarPalavras(l){ return l.split(/\s+/).filter(Boolean).length; }
+  function estimarTokens(l){ return l.length ? Math.max(1, Math.round(l.length/4)) : 0; }
+
+  function calcular(silent=false){
+    const linhas = linhasValidas(textoEl.value);
+    if(!linhas.length){ if(!silent) toast(t('toast_no_lines')); return; }
+    const detalhes = []; let totalPalavras=0, totalTokens=0; let idx=0;
+    for(const linha of linhas){
+      idx++; const p=contarPalavras(linha); const t=estimarTokens(linha); totalPalavras+=p; totalTokens+=t; detalhes.push({i:idx, frase:linha, palavras:p, tokens:t});
+    }
+    const mediaPalavrasFrase = totalPalavras / linhas.length;
+    const mediaTokensFrase = totalTokens / linhas.length;
+    const ratio = totalPalavras ? (totalTokens / totalPalavras) : 1.333; // fallback
+
+    const usuariosDia = Number(usuariosDiaEl.value)||0;
+    const perguntasUsuario = Number(perguntasUsuarioEl.value)||0;
+    if(usuariosDia<=0 || perguntasUsuario<=0){ if(!silent) toast(t('toast_fill_users')); return; }
+
+    const inputTokensMedio = mediaPalavrasFrase * ratio; // tokens médios de entrada por pergunta
+    const multSaida = 4; // constante fixa
+    const outputTokensMedio = inputTokensMedio * multSaida;
+    const cuSeconds = (inputTokensMedio * 100 + outputTokensMedio * 400) / 1000; // por requisição média
+    const cuMinutes = cuSeconds / 60;
+    const cuHours = cuSeconds / 3600;
+    const requestsDia = usuariosDia * perguntasUsuario;
+    const capacidadeNeed = (requestsDia * cuHours) / 24;
+
+    renderTokens({detalhes,totalPalavras,totalTokens,mediaPalavrasFrase,mediaTokensFrase,ratio});
+    renderCapacity({cuSeconds, cuMinutes, cuHours, capacidadeNeed, requestsDia});
+  }
+
+  function renderTokens(m){
+    const kpisEl = $('#tokensKpis');
+    const tbody = $('#tokensTbody');
+    kpisEl.innerHTML='';
+    const kpis = [
+      [t('kpi_phrases'), m.detalhes.length],
+      [t('kpi_total_words'), m.totalPalavras],
+      [t('kpi_total_tokens'), m.totalTokens],
+      [t('kpi_avg_words'), m.mediaPalavrasFrase.toFixed(2)],
+      [t('kpi_avg_tokens'), m.mediaTokensFrase.toFixed(2)],
+      [t('kpi_tokens_per_word'), m.ratio.toFixed(3)]
+    ];
+    for(const [label,val] of kpis){
+      const div=document.createElement('div');
+      div.className='kpi fade';
+      div.innerHTML=`<h3>${label}</h3><p>${val}</p>`;
+      kpisEl.appendChild(div);
+    }
+    tbody.innerHTML='';
+    for(const d of m.detalhes){
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td>${d.i}</td><td>${escapeHtml(d.frase)}</td><td>${d.palavras}</td><td>${d.tokens}</td>`;
+      tbody.appendChild(tr);
+    }
+    resultado.classList.remove('hidden');
+  }
+
+  function renderCapacity(m){
+    const html = `
+      <div style="display:grid; gap:.75rem; grid-template-columns:repeat(auto-fit,minmax(160px,1fr));">
+        <div class="kpi"> <h3>${t('label_cu_seconds')}</h3><p>${m.cuSeconds.toFixed(2)}</p></div>
+        <div class="kpi"> <h3>${t('label_cu_minute')}</h3><p>${m.cuMinutes.toFixed(3)}</p></div>
+        <div class="kpi"> <h3>${t('label_cu_hours')}</h3><p>${m.cuHours.toFixed(6)}</p></div>
+        <div class="kpi" style="border:1px solid var(--accent); box-shadow:0 0 0 2px rgba(15,108,189,.25);"> <h3>${t('label_requests_day')}</h3><p>${m.requestsDia.toLocaleString(currentLang==='pt-BR'?'pt-BR':'en-US')}</p></div>
+        <div class="kpi" style="border:1px solid var(--accent); box-shadow:0 0 0 2px rgba(15,108,189,.25);"> <h3>${t('label_capacity_need')}</h3><p>${m.capacidadeNeed.toFixed(6)}</p></div>
+      </div>`;
+    capacidadeResultados.innerHTML = html;
+  }
+
+  function escapeHtml(str){ return str.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c])); }
+
+
+  function toast(msg){
+    const e=document.createElement('div'); e.textContent=msg; Object.assign(e.style,{position:'fixed',bottom:'16px',left:'50%',transform:'translateX(-50%)',background:'#1e293b',border:'1px solid #334766',padding:'8px 14px',borderRadius:'10px',fontSize:'.7rem',opacity:'0',transition:'.35s',zIndex:9999}); document.body.appendChild(e); requestAnimationFrame(()=>{e.style.opacity='1'; e.style.transform='translate(-50%, -6px)';}); setTimeout(()=>{e.style.opacity='0'; e.style.transform='translate(-50%, 4px)'; setTimeout(()=>e.remove(),400);},1800);
+  }
+
+  // Eventos
+  btnCalcular.addEventListener('click', ()=>calcular(false));
+  btnLimpar.addEventListener('click', ()=>{ textoEl.value=''; $('#tokensKpis').innerHTML=''; $('#tokensTbody').innerHTML=''; capacidadeResultados.innerHTML=''; resultado.classList.add('hidden'); });
+  btnExemplo.addEventListener('click', ()=>{ textoEl.value=t('example_text'); toast(t('btn_example')); });
+  btnIrCapacity.addEventListener('click', ()=>{ window.location.href='capacity.html'; });
+
+  langSwitch.addEventListener('click',(e)=>{
+    const btn = e.target.closest('[data-lang-select]');
+    if(!btn) return;
+    currentLang = btn.dataset.langSelect;
+    localStorage.setItem('langPref', currentLang);
+    applyI18n();
+  });
+
+  // Initial language load
+  applyI18n();
+})();
+</script>
 </body>
 </html>

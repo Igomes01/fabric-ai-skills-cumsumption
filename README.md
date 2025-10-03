@@ -2,6 +2,47 @@
 
 Uma calculadora web simples e elegante que funciona diretamente no seu navegador!
 
+---
+
+## 📝 Contador de Palavras & Tokens
+
+Além da calculadora, este repositório agora inclui uma ferramenta estática (100% client-side) para analisar **lista de frases** e obter:
+
+- Contagem de palavras
+- Estimativa de tokens (heurística chars/4)
+- Cálculo real de tokens se o script `tiktoken` JS carregar
+- Médias por frase
+- Download CSV e copiar tabela para clipboard
+
+### Como usar (GitHub Pages)
+
+1. Publique o repositório com GitHub Pages (ver instruções abaixo)
+2. Acesse a URL do seu Pages (`https://SEU_USUARIO.github.io/NOME_DO_REPOSITORIO`)
+3. A página `index.html` já abre a ferramenta
+4. Cole suas frases (uma por linha ou separadas por `;` ou `|`)
+5. Ajuste opções (remover vazias, minúsculas, separador, modo de tokens, encoding)
+6. Clique em **Calcular métricas**
+7. Baixe o CSV ou copie a tabela
+
+### Técnicas usadas
+
+- **HTML + CSS puro** com design responsivo
+- **JavaScript vanilla** (nenhuma dependência obrigatória)
+- **Progressive enhancement**: tenta carregar `js-tiktoken` via CDN; se falhar usa heurística
+- **Segurança / Privacidade**: nenhum dado sai do navegador
+
+### Estrutura visual
+
+| Elemento | Função |
+|----------|--------|
+| Textarea | Inserção de frases |
+| Configurações | Ajuste de separador e normalização |
+| KPIs | Totais e médias |
+| Tabela | Métricas linha a linha |
+| Chips | Resumo do processamento |
+
+---
+
 ## 🌐 [**ACESSE A CALCULADORA AQUI**](https://SEU_USUARIO.github.io/calculadora-online)
 
 ## ✨ Funcionalidades
@@ -40,13 +81,13 @@ Uma calculadora web simples e elegante que funciona diretamente no seu navegador
 https://SEU_USUARIO.github.io/NOME_DO_REPOSITORIO
 ```
 
-## � Estrutura do projeto
+## 📁 Estrutura do projeto
 
 ```
-├── index.html          # Calculadora web principal
-├── calculadora.py      # Versão Python (opcional)
-├── README.md          # Esta documentação
-└── .gitignore         # Arquivos ignorados pelo Git
+├── index.html          # Interface web (calculadora + contador de tokens)
+├── calculadora.py      # Versão Python da calculadora simples
+├── README.md           # Esta documentação
+└── .gitignore          # Arquivos ignorados pelo Git
 ```
 
 ## 🎨 Características do design
