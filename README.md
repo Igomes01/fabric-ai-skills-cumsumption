@@ -1,6 +1,6 @@
 # Fabric Copilot & Data Agent Consumption Estimation Accelerator
 
-> IMPORTANT DISCLAIMER: Although the code in this repository was created by a Microsoft employee, this is **NOT** an official Microsoft product, service, toolkit, nor a supported deliverable. It is an **unofficial accelerator / learning sample** built from field experience with customers and the publicly available Microsoft documentation. Use it at your own risk, validate results independently, and always rely on official tooling for final commercial or capacity sizing decisions like Fabric Capacity Estimator.
+> IMPORTANT DISCLAIMER: Although the code in this repository was created by a Microsoft employee, this is **NOT** an official Microsoft product, service, toolkit, nor a supported deliverable. It is an **unofficial accelerator / learning sample** built from field experience with customers and the publicly available Microsoft documentation. Use it at your own risk, validate results independently, and always rely on official tooling for final commercial or capacity sizing decisions like Fabric Capacity Metrics.
 
 Official reference documentation that informed this accelerator:
 - Copilot consumption fundamentals: https://learn.microsoft.com/en-us/fabric/fundamentals/copilot-fabric-consumption
@@ -14,16 +14,15 @@ This repository helps you quickly approximate token usage and high‑level Capac
 1. A static, infrastructure‑free web interface (for non‑developers) hosted easily via GitHub Pages.
 2. Python CLI utilities (for higher fidelity token counts) using the same tokenization approach applied in internal experimentation (via `tiktoken`).
 
-It is **not a replacement** for official guidance nor for the **Fabric Capacity Estimator application**, which remains the authoritative source for final sizing decisions. Treat every output here as a directional aid, not a commitment.
+It is **not a replacement** for official guidance nor for the **Fabric Capacity Metrics application**, which remains the authoritative source for final sizing decisions. Treat every output here as a directional aid, not a commitment.
 
 ---
 
 ## 2. Accuracy Ladder
 In order of increasing reliability:
-1. Heuristic fallback (character length ÷ 4) – only used when all tokenizers fail in the browser.
-2. Browser static site with WebAssembly `tiktoken` (and layered fallbacks). Good for quick ideation.
-3. Python CLI scripts (`tokens_calculator.py`, `manual_cu_estimator.py`) – higher accuracy because they run locally with the native `tiktoken` library.
-4. Official Fabric Capacity Estimator (outside this repo) – final and authoritative for planning & procurement.
+1. **Static web interface** (`index.html`) – Uses simple heuristic (character length ÷ 4). Fast and lightweight, but least accurate.
+2. **Python CLI scripts** (`tokens_calculator.py`, `manual_cu_estimator.py`) – Higher accuracy using native `tiktoken` library for proper tokenization.
+3. **Official Fabric Capacity Metrics** ([outside this repo](https://learn.microsoft.com/en-us/fabric/enterprise/metrics-app)) – Final and authoritative for planning & procurement.
 
 Whenever possible, move “up” the ladder before making decisions.
 
@@ -33,12 +32,10 @@ Whenever possible, move “up” the ladder before making decisions.
 
 | File | Role |
 |------|------|
-| `index.html` | Static multi‑line token & word analyzer (client‑side; bilingual earlier iterations) with graceful tokenizer fallbacks. |
+| `index.html` | Static multi‑line token & word analyzer (client‑side; bilingual support) using simple heuristic tokenization. |
 | `capacity.html` | Lightweight page to experiment with capacity KPIs given average token assumptions. |
-| `tokens_calculator.py` | Consolidated CLI for multi‑line token analysis + optional capacity estimation (now contains embedded analysis logic). |
+| `tokens_calculator.py` | Consolidated CLI for multi‑line token analysis + optional capacity estimation (contains embedded analysis logic). |
 | `manual_cu_estimator.py` | CLI focused on manual CU scenario calculations (users, questions per user, etc.). |
-| `calculadora.py` | Legacy simple arithmetic sample (retained only as an auxiliary example). |
-| `ai_skill.ipynb` / `calc_fabric.ipynb` | Exploratory notebooks that informed formulas and approach. |
 | `requirements.txt` | Python dependencies (not required for pure static site usage). |
 
 *(Some earlier supporting modules were merged for simplicity.)*
@@ -62,18 +59,17 @@ Where:
 - `requests_per_day` – Derived from `users_per_day * questions_per_user_per_day`.
 - `capacity_need` – Approximate average CU requirement per day (directional only).
 
-> CAUTION: Ratios and multipliers here are **not** official published guarantees; they are illustrative for early ideation. Always validate your real workloads and finalize with the Fabric Capacity Estimator.
+> CAUTION: Ratios and multipliers here are **not** official published guarantees; they are illustrative for early ideation. Always validate your real workloads and finalize with the Fabric Capacity Metrics.
 
 ---
 
 ## 5. Tokenization Strategy
 
-CLI scripts use the Python `tiktoken` library (default model key: `gpt-4o-mini`, falling back to a base encoding). The static site attempts this order:
-1. WebAssembly `@dqbd/tiktoken` (primary)
-2. `gpt-tokenizer` fallback
-3. Heuristic `length / 4`
+CLI scripts use the Python `tiktoken` library (default model key: `gpt-4o-mini`, falling back to a base encoding for unknown models). 
 
-The UI can surface when a fallback occurs (design intent: transparent degradations). No data leaves the browser; all processing is local.
+The static site (`index.html`) uses a **simplified heuristic approach**: `length / 4` for all token estimations. This keeps the interface lightweight and dependency-free, but sacrifices accuracy compared to proper tokenization libraries.
+
+**No external libraries or fallback chains are currently implemented in the web interface.** All processing remains local to the browser.
 
 ---
 
@@ -81,6 +77,7 @@ The UI can surface when a fallback occurs (design intent: transparent degradatio
 
 ### 6.1. Environment Setup (Windows example)
 ```cmd
+cd "your-repo-folder"
 python -m venv .venv
 ".venv\Scripts\activate"
 pip install -r requirements.txt
@@ -119,7 +116,7 @@ The web assets (`index.html`, `capacity.html`) are pure static files:
 2. Access `https://YOUR_USER.github.io/YOUR_REPO/`.
 3. Paste lines, compute metrics, optionally export results.
 
-> Because no server component runs, advanced or custom encodings beyond those bundled may degrade gracefully to fallback heuristics. For the **most reliable token counts, prefer the Python CLI.**
+> The web interface uses a simple character-based heuristic (length ÷ 4) for all tokenization, which is fast but not as accurate as proper tokenization. For the **most reliable token counts, prefer the Python CLI tools.**
 
 ---
 
@@ -130,7 +127,7 @@ The web assets (`index.html`, `capacity.html`) are pure static files:
 | Ideation | Rapid question drafting & rough sizing | Static site | Fast, no setup |
 | Refinement | More accurate token counts | `tokens_calculator.py` | Real `tiktoken` usage |
 | Scenario modeling | CU sensitivity (users / questions) | `manual_cu_estimator.py` | Focus on demand variables |
-| Final validation | Official capacity alignment | Fabric Capacity Estimator | Authoritative |
+| Final validation | Official capacity alignment | Fabric Capacity Metrics | Authoritative |
 
 ---
 
@@ -139,7 +136,8 @@ The web assets (`index.html`, `capacity.html`) are pure static files:
 * Ratios (e.g., output = 4 × input) are illustrative defaults.
 * No guarantee of parity with evolving service internals.
 * Does not model concurrency bursts, throttling, network overhead, or caching effects.
-* Heuristic fallback may under/overestimate edge linguistic cases (very short or highly token-dense inputs).
+* Web interface heuristic (length ÷ 4) may significantly under/overestimate token counts, especially for non-English text or code samples.
+* No consideration for model-specific tokenization differences in the web interface.
 
 ---
 
@@ -173,7 +171,7 @@ If a LICENSE file is not present, treat this as a sample provided without explic
 ---
 
 ## 14. Final Reminder
-Always corroborate any directional estimates here with the **Fabric Capacity Estimator** and official documentation:
+Always corroborate any directional estimates here with the **Fabric Capacity Metrics** and official documentation:
 - https://learn.microsoft.com/en-us/fabric/fundamentals/copilot-fabric-consumption
 - https://learn.microsoft.com/en-us/fabric/fundamentals/data-agent-consumption
 
