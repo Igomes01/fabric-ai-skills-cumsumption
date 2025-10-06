@@ -2,6 +2,8 @@
 
 > IMPORTANT DISCLAIMER: Although the code in this repository was created by a Microsoft employee, this is **NOT** an official Microsoft product, service, toolkit, nor a supported deliverable. It is an **unofficial accelerator / learning sample** built from field experience with customers and the publicly available Microsoft documentation. Use it at your own risk, validate results independently, and always rely on official tooling for final commercial or capacity sizing decisions like Fabric Capacity Metrics.
 
+Web Apllication for Copilot & Data Agent CU Cumsumption developed with current repo: https://igomes01.github.io/fabric-ai-skills-cumsumption/
+
 Official reference documentation that informed this accelerator:
 - Copilot consumption fundamentals: https://learn.microsoft.com/en-us/fabric/fundamentals/copilot-fabric-consumption
 - Data Agent consumption fundamentals: https://learn.microsoft.com/en-us/fabric/fundamentals/data-agent-consumption
