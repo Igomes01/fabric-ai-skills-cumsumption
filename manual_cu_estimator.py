@@ -37,7 +37,7 @@ def get_output_factor(avg_input_tokens: float) -> float:
         401-700   → 0.7
         701-1000  → 0.5
         1001-1500 → 0.35
-        1501-2000 → 0.3
+        1501-2000 → 0.25
         > 2000    → 0.25
     """
     if avg_input_tokens <= 10:

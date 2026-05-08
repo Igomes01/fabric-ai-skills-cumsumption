@@ -49,7 +49,7 @@ Whenever possible, move “up” the ladder before making decisions.
 Current approximation (subject to refinement):
 
 ```
-output_tokens = input_tokens * 4
+output_tokens = input_tokens * get_output_factor(input_tokens)
 cu_seconds    = (input_tokens * 100 + output_tokens * 400) / 1000
 cu_hours      = cu_seconds / 3600
 capacity_need = (requests_per_day * cu_hours) / 24
@@ -57,9 +57,29 @@ capacity_need = (requests_per_day * cu_hours) / 24
 
 Where:
 - `input_tokens` – Average prompt / question tokens.
-- `output_tokens` – Assumes a 4× expansion factor (illustrative ratio; adjust as your scenario dictates).
+- `output_tokens` – Calculated using a **dynamic expansion factor** (`get_output_factor`) that varies by input size (see table below).
 - `requests_per_day` – Derived from `users_per_day * questions_per_user_per_day`.
 - `capacity_need` – Approximate average CU requirement per day (directional only).
+
+### Dynamic Output Factor Scale
+
+Shorter inputs tend to produce proportionally longer outputs. The factor decreases as input size grows, keeping estimated output in a realistic range:
+
+| Input Tokens (avg) | Output Factor | Example Output (midpoint) |
+|--------------------|---------------|---------------------------|
+| ≤ 10               | 20            | ~100                      |
+| 11–30              | 15            | ~300                      |
+| 31–50              | 10            | ~400                      |
+| 51–70              | 8             | ~480                      |
+| 71–100             | 5             | ~425                      |
+| 101–150            | 4             | ~500                      |
+| 151–200            | 2             | ~350                      |
+| 201–400            | 1.0           | ~300                      |
+| 401–700            | 0.7           | ~385                      |
+| 701–1000           | 0.5           | ~425                      |
+| 1001–1500          | 0.35          | ~437                      |
+| 1501–2000          | 0.25          | ~437                      |
+| > 2000             | 0.25          | ~500+                     |
 
 > CAUTION: Ratios and multipliers here are **not** official published guarantees; they are illustrative for early ideation. Always validate your real workloads and finalize with the Fabric Capacity Metrics.
 
@@ -135,7 +155,7 @@ The web assets (`index.html`, `capacity.html`) are pure static files:
 
 ## 9. Limitations
 * Not an official licensing or billing tool.
-* Ratios (e.g., output = 4 × input) are illustrative defaults.
+* Ratios (output factor scale) are illustrative defaults based on field observations.
 * No guarantee of parity with evolving service internals.
 * Does not model concurrency bursts, throttling, network overhead, or caching effects.
 * Web interface heuristic (length ÷ 4) may significantly under/overestimate token counts, especially for non-English text or code samples.
