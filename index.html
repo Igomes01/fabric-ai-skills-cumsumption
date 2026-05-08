@@ -231,8 +231,26 @@
     const perguntasUsuario = Number(perguntasUsuarioEl.value)||0;
     if(usuariosDia<=0 || perguntasUsuario<=0){ if(!silent) toast(t('toast_fill_users')); return; }
 
+    // AIC - Fator de saída dinâmico: quanto menor o avg_input_tokens, maior o fator.
+    // AIC - Escala suavizada até 2000 tokens para manter output médio realista.
+    function getOutputFactor(avgInputTokens) {
+      if (avgInputTokens <= 10) return 20;
+      if (avgInputTokens <= 30) return 15;
+      if (avgInputTokens <= 50) return 10;
+      if (avgInputTokens <= 70) return 8;
+      if (avgInputTokens <= 100) return 5;
+      if (avgInputTokens <= 150) return 4;
+      if (avgInputTokens <= 200) return 2;
+      if (avgInputTokens <= 400) return 1.0;
+      if (avgInputTokens <= 700) return 0.7;
+      if (avgInputTokens <= 1000) return 0.5;
+      if (avgInputTokens <= 1500) return 0.35;
+      if (avgInputTokens <= 2000) return 0.25;
+      return 0.25;
+    }
+
     const inputTokensMedio = mediaPalavrasFrase * ratio; // tokens médios de entrada por pergunta
-    const multSaida = 4; // constante fixa
+    const multSaida = getOutputFactor(inputTokensMedio);
     const outputTokensMedio = inputTokensMedio * multSaida;
     const cuSeconds = (inputTokensMedio * 100 + outputTokensMedio * 400) / 1000; // por requisição média
     const cuMinutes = cuSeconds / 60;

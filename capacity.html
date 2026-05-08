@@ -56,7 +56,7 @@
       <button class="lang-btn" data-lang-select="en-US">EN-US</button>
     </div>
     <h1 data-i18n="title_capacity">Capacidade Necessária (Copilot Fabric)</h1>
-    <p class="lead" data-i18n="subtitle_capacity">Informe apenas os três valores. Usamos razões padrão (tokens/palavra ≈ 1.333, saída 4×) para estimar capacidade (CU aproximada).</p>
+    <p class="lead" data-i18n="subtitle_capacity">Informe apenas os três valores. Usamos razões padrão (tokens/palavra ≈ 1.333, fator de saída dinâmico) para estimar capacidade (CU aproximada).</p>
   </header>
   <main>
     <section class="panel">
@@ -82,7 +82,7 @@
       <p class="warning" data-i18n="warning_capacity">Esta calculadora é aproximada e serve para planejamento inicial. Ajuste com métricas reais depois.</p>
       <div id="resultado" class="result fade" style="display:none;">
         <div id="metricas" style="display:grid; gap:.85rem; grid-template-columns:repeat(auto-fit,minmax(170px,1fr));"></div>
-        <p class="note" data-i18n="note_formulas" style="margin-top:1rem;">Fórmulas: cu_seconds = (in_tokens*100 + out_tokens*400)/1000 • cu_min = cu_seconds/60 • cu_hours = cu_seconds/3600 • capacidade = (req_dia * cu_hours)/24<br>Constantes padrão: tokens/palavra ≈ 1.333 • saída = 4×</p>
+        <p class="note" data-i18n="note_formulas" style="margin-top:1rem;">Fórmulas: cu_seconds = (in_tokens*100 + out_tokens*400)/1000 • cu_min = cu_seconds/60 • cu_hours = cu_seconds/3600 • capacidade = (req_dia * cu_hours)/24<br>Constantes padrão: tokens/palavra ≈ 1.333 • fator de saída varia por faixa de tokens</p>
       </div>
     </section>
   </main>
@@ -176,14 +176,32 @@
   const params = new URLSearchParams(location.search);
   if(params.has('avgWords')) { $('#palavrasPergunta').value = Number(params.get('avgWords')); }
 
+  // AIC - Fator de saída dinâmico: quanto menor o avg_input_tokens, maior o fator.
+  // AIC - Escala suavizada até 2000 tokens para manter output médio realista.
+  function getOutputFactor(avgInputTokens) {
+    if (avgInputTokens <= 10) return 20;
+    if (avgInputTokens <= 30) return 15;
+    if (avgInputTokens <= 50) return 10;
+    if (avgInputTokens <= 70) return 8;
+    if (avgInputTokens <= 100) return 5;
+    if (avgInputTokens <= 150) return 4;
+    if (avgInputTokens <= 200) return 2;
+    if (avgInputTokens <= 400) return 1.0;
+    if (avgInputTokens <= 700) return 0.7;
+    if (avgInputTokens <= 1000) return 0.5;
+    if (avgInputTokens <= 1500) return 0.35;
+    if (avgInputTokens <= 2000) return 0.25;
+    return 0.25;
+  }
+
   function calcular(){
     const palavras = Number($('#palavrasPergunta').value)||0;
     const usuarios = Number($('#usuariosDia').value)||0;
     const perguntasUsuario = Number($('#perguntasUsuario').value)||0;
     const ratio = 1.333; // constante
-    const multSaida = 4;  // constante
     if(!palavras || !usuarios || !perguntasUsuario){ alert(t('alert_fill')); return; }
     const inputTokens = palavras * ratio;
+    const multSaida = getOutputFactor(inputTokens);
     const outputTokens = inputTokens * multSaida;
     const cuSeconds = (inputTokens * 100 + outputTokens * 400) / 1000;
     const cuMinutes = cuSeconds / 60;
